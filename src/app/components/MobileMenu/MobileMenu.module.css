@@ -1,0 +1,137 @@
+.overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  background-color: rgba(29, 30, 33, 0.6);
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-sizing: border-box;
+  width: 210px;
+  max-width: 100%;
+  height: 100dvh;
+  padding: 24px 20px 40px;
+  overflow-y: auto;
+
+  background-color: #59b17a;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.navigation {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  width: 100%;
+  min-height: 240px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+  padding: 0 20px;
+
+  border: 1px solid #f1f1f1;
+  border-radius: 60px;
+
+  background-color: #fff;
+  color: #93939a;
+
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.navLink.active {
+  border: 5px solid #fff;
+  background-color: #59b17a;
+  color: #fff;
+}
+
+.auth {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  width: 100%;
+}
+
+.register {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 40px;
+  padding: 0 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 60px;
+
+  background: transparent;
+  color: #fff;
+
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.login {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .menu {
+    width: 334px;
+    padding: 32px 32px 40px;
+  }
+
+  .auth {
+    flex-direction: row;
+    gap: 12px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1200px) {
+  .overlay {
+    display: none;
+  }
+}
