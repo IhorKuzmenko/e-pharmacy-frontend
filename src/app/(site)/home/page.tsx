@@ -1,5 +1,6 @@
 
 import PromoBanners from '../../components/PromoBanners/PromoBanners';
+import NearestStores from '../../components/NearestStores/NearestStores';
 
 import styles from './page.module.css';
 
@@ -23,6 +24,7 @@ export default function HomePage() {
       </section>
 
       <PromoBanners />
+      <NearestStores />
     </>
   );
 }
