@@ -1,15 +1,27 @@
 
+import type { ReactNode } from 'react';
+
 import Header from '../Header/Header';
+import Footer from '..//Footer/Footer';
+
+import styles from './SharedLayout.module.css';
+
+type SharedLayoutProps = {
+  children: ReactNode;
+};
 
 export default function SharedLayout({
   children,
-}: {
-  children: React.ReactNode;
-}) {
+}: SharedLayoutProps) {
   return (
-    <>
+    <div className={styles.layout}>
       <Header />
-      <main>{children}</main>
-    </>
+
+      <main className={styles.main}>
+        {children}
+      </main>
+
+      <Footer />
+    </div>
   );
 }
