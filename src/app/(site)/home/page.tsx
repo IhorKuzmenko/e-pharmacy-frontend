@@ -2,6 +2,7 @@
 import PromoBanners from '../../components/PromoBanners/PromoBanners';
 import NearestStores from '../../components/NearestStores/NearestStores';
 import AddMedicines from '../../components/AddMedicines/AddMedicines';
+import Reviews from '../../components/Reviews/Reviews';
 
 import styles from './page.module.css';
 
@@ -27,6 +28,7 @@ export default function HomePage() {
       <PromoBanners />
       <NearestStores />
       <AddMedicines />
+      <Reviews />
     </>
   );
 }
