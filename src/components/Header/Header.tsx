@@ -1,12 +1,13 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import MobileMenu from '../MobileMenu/MobileMenu';
+
 import styles from './Header.module.css';
 
 const navigation = [
@@ -17,21 +18,32 @@ const navigation = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [menuOpenOnPath, setMenuOpenOnPath] = useState<string | null>(null);
+
+  const isMenuOpen = menuOpenOnPath === pathname;
   const isHome = pathname === '/home';
 
-  // Временно: до подключения авторизации и корзины.
   const isAuthenticated = false;
   const cartCount = 0;
+
+ const handleCloseMenu = useCallback(() => {
+  setMenuOpenOnPath(null);
+}, []);
 
   return (
     <>
       <header
-        className={`${styles.header} ${isHome ? styles.home : styles.light}`}
+        className={`${styles.header} ${
+          isHome ? styles.home : styles.light
+        }`}
       >
         <div className={`container ${styles.inner}`}>
-          <Link href="/home" className={styles.logo}>
+          <Link
+            href="/home"
+            className={styles.logo}
+            aria-label="E-Pharmacy home"
+          >
             <Image
               src={
                 isHome
@@ -45,7 +57,10 @@ export default function Header() {
             />
           </Link>
 
-          <nav className={styles.navigation} aria-label="Main navigation">
+          <nav
+            className={styles.navigation}
+            aria-label="Main navigation"
+          >
             {navigation.map(({ href, label }) => {
               const active =
                 pathname === href ||
@@ -74,24 +89,41 @@ export default function Header() {
                 className={styles.cart}
                 aria-label={`Shopping cart, ${cartCount} items`}
               >
-                <svg width="16" height="16" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  aria-hidden="true"
+                >
                   <use href="/icons/sprite.svg#shopping-cart" />
                 </svg>
-                <span className={styles.cartCount}>{cartCount}</span>
+
+                <span className={styles.cartCount}>
+                  {cartCount}
+                </span>
               </Link>
             )}
 
             <div className={styles.auth}>
               {isAuthenticated ? (
-                <button className={styles.register} type="button">
+                <button
+                  className={styles.register}
+                  type="button"
+                >
                   Log out
                 </button>
               ) : (
                 <>
-                  <Link href="/register" className={styles.register}>
+                  <Link
+                    href="/register"
+                    className={styles.register}
+                  >
                     Register
                   </Link>
-                  <Link href="/login" className={styles.login}>
+
+                  <Link
+                    href="/login"
+                    className={styles.login}
+                  >
                     Login
                   </Link>
                 </>
@@ -101,7 +133,7 @@ export default function Header() {
             <button
               type="button"
               className={styles.menuButton}
-              onClick={() => setIsMenuOpen(true)}
+              onClick={() => setMenuOpenOnPath(pathname)}
               aria-label="Open menu"
               aria-expanded={isMenuOpen}
               aria-controls="mobile-navigation"
@@ -116,7 +148,7 @@ export default function Header() {
 
       <MobileMenu
         isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        onClose={handleCloseMenu}
         isAuthenticated={isAuthenticated}
       />
     </>

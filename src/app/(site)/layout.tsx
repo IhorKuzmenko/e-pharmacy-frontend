@@ -1,10 +1,18 @@
+import type { ReactNode } from 'react';
 
-import SharedLayout from '../components/SharedLayout/SharedLayout';
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 
-export default function SiteLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <SharedLayout>{children}</SharedLayout>;
+interface MainLayoutProps {
+  children: ReactNode;
+}
+
+export default function MainLayout({ children }: MainLayoutProps) {
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
 }

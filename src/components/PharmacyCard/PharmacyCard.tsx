@@ -1,5 +1,5 @@
 
-import Icon from '../../components/Icon/Icon';
+import Icon from '../Icon/Icon';
 import type { Pharmacy } from '@/types/pharmacy';
 
 import styles from './PharmacyCard.module.css';

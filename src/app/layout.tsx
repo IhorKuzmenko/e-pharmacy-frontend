@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import ToastProvider from '@/components/ToastProvider';
+
 import 'modern-normalize/modern-normalize.css';
 import './globals.css';
 
@@ -21,8 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.variable}>{children}</body>
+    <html lang="en" data-scroll-behavior="smooth">
+      <body className={inter.variable}>
+        {children}
+        <ToastProvider />
+      </body>
     </html>
   );
 }

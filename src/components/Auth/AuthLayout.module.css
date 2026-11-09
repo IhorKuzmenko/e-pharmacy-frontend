@@ -1,0 +1,314 @@
+/* =========================
+   AUTH PAGE
+========================= */
+
+.page {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: var(--color-background);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+  padding-top: 24px;
+  padding-bottom: 40px;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+}
+
+.logoImage {
+  display: block;
+  width: 140px;
+  height: auto;
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 614px;
+}
+
+.title {
+  position: relative;
+  z-index: 2;
+  max-width: 614px;
+  color: var(--color-text);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.accent {
+  color: var(--color-primary);
+}
+
+/* =========================
+   TABLET IMAGE
+========================= */
+
+.tablet {
+  position: absolute;
+  z-index: 1;
+  top: -65px;
+  right: 20px;
+  display: block;
+  width: 105px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================
+   FORM CONTAINERS
+========================= */
+
+.formContainer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-width: 0;
+}
+
+.registerFormContainer {
+  max-width: 574px;
+}
+
+.loginFormContainer {
+  max-width: 323px;
+}
+
+/* =========================
+   DECORATIVE ELEMENTS
+========================= */
+
+.elements {
+  position: absolute;
+  z-index: 1;
+  right: -90px;
+  bottom: -80px;
+  display: block;
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================
+   MOBILE: 320px - 767px
+========================= */
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding-top: 24px;
+    padding-bottom: 48px;
+  }
+
+  .content {
+    gap: 40px;
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
+
+  .hero {
+    max-width: 100%;
+  }
+
+  .title {
+    max-width: 335px;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .tablet {
+    top: -65px;
+    right: 20px;
+    width: 105px;
+  }
+
+  .registerFormContainer,
+  .loginFormContainer {
+    width: 100%;
+  }
+
+  .elements {
+    right: -90px;
+    bottom: -80px;
+    width: 220px;
+  }
+}
+
+/* =========================
+   TABLET: 768px - 1199px
+========================= */
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+
+  .logoImage {
+    width: 172px;
+  }
+
+  .content {
+    justify-content: center;
+    align-items: flex-start;
+    gap: 36px;
+    padding-top: 70px;
+    padding-bottom: 60px;
+  }
+
+  .hero {
+    max-width: 614px;
+  }
+
+  .title {
+    max-width: 614px;
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  .tablet {
+    top: -85px;
+    right: 180px;
+    width: 145px;
+  }
+
+  .registerFormContainer {
+    max-width: 574px;
+  }
+
+  .loginFormContainer {
+    max-width: 323px;
+  }
+
+  .elements {
+    right: -100px;
+    bottom: -100px;
+    width: 320px;
+  }
+}
+
+/* =========================
+   DESKTOP: 1200px - 1439px
+========================= */
+
+@media screen and (min-width: 1200px) {
+  .container {
+    padding-top: 28px;
+    padding-bottom: 40px;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+    align-items: center;
+    align-content: center;
+    column-gap: 80px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .hero {
+    max-width: 614px;
+  }
+
+  .title {
+    max-width: 614px;
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  .tablet {
+    top: -90px;
+    right: 75px;
+    width: 155px;
+  }
+
+  .registerFormContainer {
+    width: 100%;
+    max-width: 574px;
+  }
+
+  .loginFormContainer {
+    width: 100%;
+    max-width: 323px;
+  }
+
+  .elements {
+    right: -110px;
+    bottom: -110px;
+    width: 350px;
+  }
+}
+
+/* =========================
+   LARGE DESKTOP: 1440px+
+========================= */
+
+@media screen and (min-width: 1440px) {
+  .content {
+    column-gap: 110px;
+  }
+
+  .tablet {
+    top: -95px;
+    right: 90px;
+    width: 165px;
+  }
+
+  .elements {
+    right: -120px;
+    bottom: -120px;
+    width: 380px;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    scroll-behavior: auto;
+  }
+}

@@ -14,17 +14,17 @@ const socials = [
   {
     name: 'Facebook',
     icon: 'facebook',
-    href: 'https://www.facebook.com/',
+    href: 'https://www.facebook.com/goITclub/',
   },
   {
     name: 'Instagram',
     icon: 'instagram',
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/goitclub/',
   },
   {
     name: 'YouTube',
     icon: 'youtube',
-    href: 'https://www.youtube.com/',
+    href: 'https://www.youtube.com/c/GoIT',
   },
 ];
 
@@ -83,6 +83,7 @@ export default function Footer() {
                     width="44"
                     height="44"
                     aria-hidden="true"
+                    focusable="false"
                   >
                     <use href={`/icons/sprite.svg#${icon}`} />
                   </svg>
@@ -97,7 +98,10 @@ export default function Footer() {
             © E-Pharmacy 2023. All Rights Reserved
           </p>
 
-          <span className={styles.separator} aria-hidden="true">
+          <span
+            className={styles.separator}
+            aria-hidden="true"
+          >
             |
           </span>
 
@@ -105,7 +109,10 @@ export default function Footer() {
             Privacy Policy
           </span>
 
-          <span className={styles.separator} aria-hidden="true">
+          <span
+            className={styles.separator}
+            aria-hidden="true"
+          >
             |
           </span>
 

@@ -1,5 +1,5 @@
 
-import PharmacyCard from '../../components/PharmacyCard/PharmacyCard';
+import PharmacyCard from '../PharmacyCard/PharmacyCard';
 import { getNearestStores } from '@/services/stores';
 
 import styles from './NearestStores.module.css';
