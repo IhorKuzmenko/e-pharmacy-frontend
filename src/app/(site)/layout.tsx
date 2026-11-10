@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Suspense } from 'react';
 
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
@@ -10,7 +11,9 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <>
-      <Header />
+      <Suspense fallback={null}>
+  <Header />
+</Suspense>
       <main>{children}</main>
       <Footer />
     </>

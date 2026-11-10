@@ -385,6 +385,7 @@
 
   .logo img {
     width: 172px;
+    height: auto;
   }
 
   .actions {
