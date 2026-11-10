@@ -7,15 +7,13 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import {
-  loginUser,
-  type LoginData,
-} from '@/lib/auth';
+import { loginUser, type LoginData } from '@/lib/auth';
 
 import styles from './LoginForm.module.css';
 
 export default function LoginForm() {
   const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -33,25 +31,31 @@ export default function LoginForm() {
         password: values.password,
       });
 
-      // The exact token field must match the backend response.
       const token = result.accessToken ?? result.token;
 
-      if (typeof token !== 'string') {
+      if (typeof token !== 'string' || !token) {
         throw new Error(
-          'Login response does not contain an access token',
+          'Login response does not contain an access token'
         );
       }
 
+      // Save JWT token for authenticated API requests.
       sessionStorage.setItem('e-pharmacy-token', token);
 
+      // Notify Header and other components about login.
+      window.dispatchEvent(
+        new Event('e-pharmacy-auth-changed')
+      );
+
       toast.success('Login successful!');
+
       router.push('/medicine');
       router.refresh();
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
-          : 'Login failed',
+          : 'Login failed'
       );
     }
   };
@@ -102,9 +106,13 @@ export default function LoginForm() {
             <button
               type="button"
               className={styles.eyeButton}
-              onClick={() => setShowPassword((prev) => !prev)}
+              onClick={() =>
+                setShowPassword((prev) => !prev)
+              }
               aria-label={
-                showPassword ? 'Hide password' : 'Show password'
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
               }
             >
               {showPassword ? 'Hide' : 'Show'}

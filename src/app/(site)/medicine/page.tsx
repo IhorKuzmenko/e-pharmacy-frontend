@@ -1,6 +1,7 @@
 
 import type { Metadata } from 'next';
-import MedicineCatalog from "./MedicineCatalog";
+
+import MedicineCatalog from '@/components/Medicine/MedicineCatalog';
 
 export const metadata: Metadata = {
   title: 'Medicine | E-Pharmacy',

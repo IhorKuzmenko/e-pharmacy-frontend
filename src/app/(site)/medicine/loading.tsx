@@ -1,5 +1,5 @@
 
-import styles from './MedicinePage.module.css';
+import styles from '@/components/Medicine/MedicineCatalog.module.css';
 
 export default function Loading() {
   return (
@@ -7,9 +7,9 @@ export default function Loading() {
       <div className={`container ${styles.container}`}>
         <h1 className={styles.title}>Medicine</h1>
 
-        <div className={styles.message} role="status">
+        <p className={styles.message}>
           Loading medicines...
-        </div>
+        </p>
       </div>
     </main>
   );
