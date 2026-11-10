@@ -4,10 +4,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { addToCart } from '@/lib/cart';
+import { useAuthModal } from '@/components/AuthModal/AuthModalProvider';
+
 import styles from './ProductCard.module.css';
 
 export type Product = {
@@ -26,28 +27,29 @@ type ProductCardProps = {
 export default function ProductCard({
   product,
 }: ProductCardProps) {
-  const router = useRouter();
+  const { openLogin } = useAuthModal();
   const [isAdding, setIsAdding] = useState(false);
 
-  const isOutOfStock = product.stock <= 0;
-
   const handleAddToCart = async () => {
-    if (isAdding || isOutOfStock) return;
+    if (isAdding || product.stock <= 0) return;
 
     const token = sessionStorage.getItem('e-pharmacy-token');
 
     if (!token) {
-      toast.error('Please log in to add products');
-      router.push('/login');
+      openLogin();
       return;
     }
 
-    try {
-      setIsAdding(true);
+    setIsAdding(true);
 
+    try {
       const updatedCart = await addToCart(product._id);
 
-      toast.success(`${product.name} added to cart!`);
+      if (
+        sessionStorage.getItem('e-pharmacy-token') !== token
+      ) {
+        return;
+      }
 
       window.dispatchEvent(
         new CustomEvent('e-pharmacy-cart-updated', {
@@ -57,22 +59,14 @@ export default function ProductCard({
           },
         })
       );
+
+      toast.success('Product added to cart');
     } catch (error) {
-      const message =
+      toast.error(
         error instanceof Error
           ? error.message
-          : 'Failed to add product';
-
-      toast.error(message);
-
-      if (
-        /invalid or expired token|token has been revoked|authorization token is missing|user not found/i.test(
-          message
-        )
-      ) {
-        sessionStorage.removeItem('e-pharmacy-token');
-        router.push('/login');
-      }
+          : 'Failed to add product'
+      );
     } finally {
       setIsAdding(false);
     }
@@ -86,7 +80,7 @@ export default function ProductCard({
             src={product.photo}
             alt={product.name}
             fill
-            sizes="(max-width: 374px) 100vw, (max-width: 767px) 50vw, (max-width: 1199px) 33vw, 25vw"
+            sizes="(max-width: 767px) 50vw, (max-width: 1199px) 33vw, 25vw"
             className={styles.productImage}
             unoptimized
           />
@@ -99,12 +93,9 @@ export default function ProductCard({
 
       <div className={styles.productInfo}>
         <div className={styles.productHeading}>
-          <h2
-            className={styles.productName}
-            title={product.name}
-          >
+          <h3 className={styles.productName}>
             {product.name}
-          </h2>
+          </h3>
 
           <span className={styles.productPrice}>
             ₴{product.price.toFixed(2)}
@@ -119,14 +110,13 @@ export default function ProductCard({
           <button
             type="button"
             className={styles.addButton}
-            onClick={handleAddToCart}
-            disabled={isAdding || isOutOfStock}
-            aria-busy={isAdding}
+            onClick={() => void handleAddToCart()}
+            disabled={isAdding || product.stock <= 0}
           >
-            {isAdding
-              ? 'Adding...'
-              : isOutOfStock
-                ? 'Out of stock'
+            {product.stock <= 0
+              ? 'Out of stock'
+              : isAdding
+                ? 'Adding...'
                 : 'Add to cart'}
           </button>
 

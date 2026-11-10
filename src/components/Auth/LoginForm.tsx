@@ -11,9 +11,16 @@ import { loginUser, type LoginData } from '@/lib/auth';
 
 import styles from './LoginForm.module.css';
 
-export default function LoginForm() {
-  const router = useRouter();
+type LoginFormProps = {
+  onSuccess?: () => void;
+  onSwitchToRegister?: () => void;
+};
 
+export default function LoginForm({
+  onSuccess,
+  onSwitchToRegister,
+}: LoginFormProps) {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -39,18 +46,20 @@ export default function LoginForm() {
         );
       }
 
-      // Save JWT token for authenticated API requests.
       sessionStorage.setItem('e-pharmacy-token', token);
 
-      // Notify Header and other components about login.
       window.dispatchEvent(
         new Event('e-pharmacy-auth-changed')
       );
 
       toast.success('Login successful!');
 
-      router.push('/medicine');
-      router.refresh();
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push('/medicine');
+        router.refresh();
+      }
     } catch (error) {
       toast.error(
         error instanceof Error
@@ -107,7 +116,7 @@ export default function LoginForm() {
               type="button"
               className={styles.eyeButton}
               onClick={() =>
-                setShowPassword((prev) => !prev)
+                setShowPassword((previous) => !previous)
               }
               aria-label={
                 showPassword
@@ -137,7 +146,16 @@ export default function LoginForm() {
 
       <p className={styles.switchText}>
         Don&apos;t have an account?{' '}
-        <Link href="/register">Register</Link>
+        {onSwitchToRegister ? (
+          <button
+            type="button"
+            onClick={onSwitchToRegister}
+          >
+            Sign Up
+          </button>
+        ) : (
+          <Link href="/register">Sign Up</Link>
+        )}
       </p>
     </form>
   );

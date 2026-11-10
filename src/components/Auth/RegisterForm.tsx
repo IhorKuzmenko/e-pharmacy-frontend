@@ -14,7 +14,15 @@ import {
 
 import styles from './RegisterForm.module.css';
 
-export default function RegisterForm() {
+type RegisterFormProps = {
+  onSuccess?: () => void;
+  onSwitchToLogin?: () => void;
+};
+
+export default function RegisterForm({
+  onSuccess,
+  onSwitchToLogin,
+}: RegisterFormProps) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,12 +44,17 @@ export default function RegisterForm() {
       });
 
       toast.success('Registration successful!');
-      router.push('/login');
+
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push('/login');
+      }
     } catch (error) {
       toast.error(
         error instanceof Error
           ? error.message
-          : 'Registration failed',
+          : 'Registration failed'
       );
     }
   };
@@ -72,6 +85,7 @@ export default function RegisterForm() {
               },
             })}
           />
+
           {errors.name && (
             <span className={styles.error}>
               {errors.name.message}
@@ -94,6 +108,7 @@ export default function RegisterForm() {
               },
             })}
           />
+
           {errors.email && (
             <span className={styles.error}>
               {errors.email.message}
@@ -120,6 +135,7 @@ export default function RegisterForm() {
               },
             })}
           />
+
           {errors.phone && (
             <span className={styles.error}>
               {errors.phone.message}
@@ -151,9 +167,13 @@ export default function RegisterForm() {
             <button
               type="button"
               className={styles.eyeButton}
-              onClick={() => setShowPassword((prev) => !prev)}
+              onClick={() =>
+                setShowPassword((previous) => !previous)
+              }
               aria-label={
-                showPassword ? 'Hide password' : 'Show password'
+                showPassword
+                  ? 'Hide password'
+                  : 'Show password'
               }
             >
               {showPassword ? 'Hide' : 'Show'}
@@ -169,16 +189,25 @@ export default function RegisterForm() {
       </div>
 
       <button
-        className={styles.submit}
         type="submit"
+        className={styles.submit}
         disabled={isSubmitting}
       >
-        {isSubmitting ? 'Registering...' : 'Register'}
+        {isSubmitting ? 'Registering...' : 'Sign Up'}
       </button>
 
       <p className={styles.switchText}>
         Already have an account?{' '}
-        <Link href="/login">Log in</Link>
+        {onSwitchToLogin ? (
+          <button
+            type="button"
+            onClick={onSwitchToLogin}
+          >
+            Log in
+          </button>
+        ) : (
+          <Link href="/login">Log in</Link>
+        )}
       </p>
     </form>
   );

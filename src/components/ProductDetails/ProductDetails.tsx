@@ -4,10 +4,12 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { getCart, updateCart } from '@/lib/cart';
+import { useAuthModal } from '@/components/AuthModal/AuthModalProvider';
+
 import ProductReviews from './ProductReviews';
 
 import styles from './ProductDetails.module.css';
@@ -30,15 +32,18 @@ type Tab = 'description' | 'reviews';
 
 export default function ProductDetails() {
   const params = useParams<{ id: string }>();
-  const router = useRouter();
+  const { openLogin } = useAuthModal();
 
   const id = params.id;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<Tab>('description');
+  const [activeTab, setActiveTab] =
+    useState<Tab>('description');
+
   const [adding, setAdding] = useState(false);
 
   useEffect(() => {
@@ -109,8 +114,7 @@ export default function ProductDetails() {
     const token = sessionStorage.getItem('e-pharmacy-token');
 
     if (!token) {
-      toast.error('Please log in to add products to cart');
-      router.push('/login');
+      openLogin();
       return;
     }
 
@@ -186,7 +190,10 @@ export default function ProductDetails() {
             {error || 'Product not found'}
           </p>
 
-          <Link href="/medicine" className={styles.backLink}>
+          <Link
+            href="/medicine"
+            className={styles.backLink}
+          >
             Back to medicine
           </Link>
         </div>
@@ -200,15 +207,21 @@ export default function ProductDetails() {
         <div className={styles.layout}>
           <section className={styles.productColumn}>
             <div className={styles.imageWrapper}>
-              <Image
-                src={product.photo}
-                alt={product.name}
-                fill
-                sizes="(max-width: 767px) 100vw, (max-width: 1199px) 40vw, 340px"
-                className={styles.productImage}
-                unoptimized
-                priority
-              />
+              {product.photo ? (
+                <Image
+                  src={product.photo}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 767px) 100vw, (max-width: 1199px) 300px, 340px"
+                  className={styles.productImage}
+                  unoptimized
+                  priority
+                />
+              ) : (
+                <p className={styles.message}>
+                  No image available
+                </p>
+              )}
             </div>
 
             <div className={styles.productInfo}>
@@ -281,14 +294,18 @@ export default function ProductDetails() {
                 type="button"
                 role="tab"
                 id="description-tab"
-                aria-selected={activeTab === 'description'}
+                aria-selected={
+                  activeTab === 'description'
+                }
                 aria-controls="product-panel"
                 className={`${styles.tab} ${
                   activeTab === 'description'
                     ? styles.activeTab
                     : ''
                 }`}
-                onClick={() => setActiveTab('description')}
+                onClick={() =>
+                  setActiveTab('description')
+                }
               >
                 Description
               </button>
@@ -330,6 +347,7 @@ export default function ProductDetails() {
                     <span className={styles.infoLabel}>
                       Product
                     </span>
+
                     <span className={styles.infoValue}>
                       {product.name}
                     </span>
@@ -339,6 +357,7 @@ export default function ProductDetails() {
                     <span className={styles.infoLabel}>
                       Brand / Supplier
                     </span>
+
                     <span className={styles.infoValue}>
                       {product.suppliers}
                     </span>
@@ -348,6 +367,7 @@ export default function ProductDetails() {
                     <span className={styles.infoLabel}>
                       Category
                     </span>
+
                     <span className={styles.infoValue}>
                       {product.category}
                     </span>
@@ -357,6 +377,7 @@ export default function ProductDetails() {
                     <span className={styles.infoLabel}>
                       Availability
                     </span>
+
                     <span className={styles.infoValue}>
                       {product.stock > 0
                         ? `${product.stock} in stock`
